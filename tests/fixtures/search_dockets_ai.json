@@ -1,0 +1,221 @@
+{
+  "meta" : {
+    "aggregations" : {
+      "priorityCategory" : [ {
+        "docCount" : 2,
+        "label" : "Other Significant"
+      }, {
+        "docCount" : 1,
+        "label" : "Economically Significant"
+      } ],
+      "docketType" : [ {
+        "docCount" : 56,
+        "label" : "Nonrulemaking"
+      }, {
+        "docCount" : 12,
+        "label" : "Rulemaking"
+      } ],
+      "major" : [ {
+        "docCount" : 2,
+        "label" : "No"
+      }, {
+        "docCount" : 1,
+        "label" : "Undetermined"
+      } ],
+      "ruleStage" : [ {
+        "docCount" : 1,
+        "label" : "Completed Actions"
+      }, {
+        "docCount" : 1,
+        "label" : "Final Rule Stage"
+      }, {
+        "docCount" : 1,
+        "label" : "Prerule Stage"
+      } ],
+      "smallEntities" : [ {
+        "docCount" : 1,
+        "label" : "Businesses"
+      }, {
+        "docCount" : 1,
+        "label" : "No"
+      } ],
+      "energyAffected" : [ {
+        "docCount" : 1,
+        "label" : "No"
+      } ],
+      "eo13771Designation" : [ {
+        "docCount" : 1,
+        "label" : "Not subject to/Not significant"
+      } ],
+      "agencyId" : [ {
+        "docCount" : 9,
+        "value" : "PTO"
+      }, {
+        "docCount" : 8,
+        "value" : "NIST"
+      }, {
+        "docCount" : 7,
+        "value" : "FDA"
+      }, {
+        "docCount" : 4,
+        "value" : "ED"
+      }, {
+        "docCount" : 4,
+        "value" : "OMB"
+      }, {
+        "docCount" : 3,
+        "value" : "BIS"
+      }, {
+        "docCount" : 3,
+        "value" : "FTC"
+      }, {
+        "docCount" : 2,
+        "value" : "CPSC"
+      }, {
+        "docCount" : 2,
+        "value" : "DOE"
+      }, {
+        "docCount" : 2,
+        "value" : "HHS"
+      }, {
+        "docCount" : 2,
+        "value" : "NCUA"
+      }, {
+        "docCount" : 2,
+        "value" : "NRC"
+      }, {
+        "docCount" : 2,
+        "value" : "NTIA"
+      }, {
+        "docCount" : 2,
+        "value" : "USCG"
+      }, {
+        "docCount" : 1,
+        "value" : "AID"
+      }, {
+        "docCount" : 1,
+        "value" : "ATBCB"
+      }, {
+        "docCount" : 1,
+        "value" : "CFPB"
+      }, {
+        "docCount" : 1,
+        "value" : "CFTC"
+      }, {
+        "docCount" : 1,
+        "value" : "COLC"
+      }, {
+        "docCount" : 1,
+        "value" : "DHS"
+      }, {
+        "docCount" : 1,
+        "value" : "DOC"
+      }, {
+        "docCount" : 1,
+        "value" : "DOD"
+      }, {
+        "docCount" : 1,
+        "value" : "DOT"
+      }, {
+        "docCount" : 1,
+        "value" : "ITA"
+      }, {
+        "docCount" : 1,
+        "value" : "NSF"
+      }, {
+        "docCount" : 1,
+        "value" : "OCC"
+      }, {
+        "docCount" : 1,
+        "value" : "OSTP"
+      }, {
+        "docCount" : 1,
+        "value" : "PCLOB"
+      }, {
+        "docCount" : 1,
+        "value" : "TREAS"
+      }, {
+        "docCount" : 1,
+        "value" : "USBC"
+      } ],
+      "internationalInterest" : [ {
+        "docCount" : 2,
+        "label" : "No"
+      }, {
+        "docCount" : 1,
+        "label" : "Yes"
+      } ]
+    },
+    "totalElements" : 68,
+    "totalPages" : 14,
+    "pageNumber" : 1,
+    "pageSize" : 5,
+    "numberOfElements" : 5,
+    "hasNextPage" : true,
+    "hasPreviousPage" : false,
+    "firstPage" : true,
+    "lastPage" : false,
+    "filters" : { }
+  },
+  "data" : [ {
+    "id" : "BIS-2024-0047",
+    "type" : "dockets",
+    "attributes" : {
+      "agencyId" : "BIS",
+      "objectId" : "0b000064866cbbb4",
+      "docketId" : "BIS-2024-0047",
+      "docketType" : "Rulemaking",
+      "highlightedContent" : "Data Collections regulations by establishing reporting requirements for the development of advanced <mark><em>artificial</em></mark>&hellip;&nbsp;<mark><em>intelligence</em></mark> (AI) models and computing clusters under the Executive order of October 30, 2023, “Safe&hellip;&nbsp;, Secure, and Trustworthy Development and Use of <mark><em>Artificial</em></mark> <mark><em>Intelligence</em></mark>.”&hellip;&nbsp;Data Collections regulation by establishing reporting requirements for the development of advanced <mark><em>artificial</em></mark>&hellip;&nbsp;<mark><em>intelligence</em></mark> (AI) models and computing clusters under Executive Order 14110 (Safe, Secure, and Trustworthy&hellip;&nbsp;Development and Use of <mark><em>Artificial</em></mark> <mark><em>Intelligence</em></mark>).",
+      "title" : "Establishment of Reporting Requirements for the Development of Advanced Artificial Intelligence Models and Computing Clusters",
+      "lastModifiedDate" : "2024-10-22T15:46:37Z"
+    }
+  }, {
+    "id" : "OSTP-TECH-2023-0007",
+    "type" : "dockets",
+    "attributes" : {
+      "agencyId" : "OSTP",
+      "objectId" : "0b00006485a782a8",
+      "docketId" : "OSTP-TECH-2023-0007",
+      "docketType" : "Rulemaking",
+      "highlightedContent" : null,
+      "title" : "Artificial Intelligence",
+      "lastModifiedDate" : "2023-10-30T14:39:35Z"
+    }
+  }, {
+    "id" : "NIST-2019-0001",
+    "type" : "dockets",
+    "attributes" : {
+      "agencyId" : "NIST",
+      "objectId" : "0b00006483c241c4",
+      "docketId" : "NIST-2019-0001",
+      "docketType" : "Nonrulemaking",
+      "highlightedContent" : null,
+      "title" : "Artificial Intelligence Standards",
+      "lastModifiedDate" : "2019-06-13T11:34:36Z"
+    }
+  }, {
+    "id" : "CPSC-2020-0026",
+    "type" : "dockets",
+    "attributes" : {
+      "agencyId" : "CPSC",
+      "objectId" : "0b000064849836c2",
+      "docketId" : "CPSC-2020-0026",
+      "docketType" : "Nonrulemaking",
+      "highlightedContent" : null,
+      "title" : "Artificial Intelligence Forum",
+      "lastModifiedDate" : "2020-12-03T09:06:05Z"
+    }
+  }, {
+    "id" : "COLC-2023-0006",
+    "type" : "dockets",
+    "attributes" : {
+      "agencyId" : "COLC",
+      "objectId" : "0b00006485f1313a",
+      "docketId" : "COLC-2023-0006",
+      "docketType" : "Nonrulemaking",
+      "highlightedContent" : null,
+      "title" : "Artificial Intelligence and Copyright",
+      "lastModifiedDate" : "2024-01-11T14:14:05Z"
+    }
+  } ]
+}
