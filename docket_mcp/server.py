@@ -65,6 +65,44 @@ async def search_dockets(
     return result.model_dump()
 
 
+@mcp.tool()
+async def get_docket(docket_id: str) -> dict:
+    """Fetch one docket's full detail from Regulations.gov by its exact ID.
+
+    Returns id, title, agency_id, docket_type, abstract (the docket's own
+    summary of what the rulemaking does), keywords, rin (Regulation
+    Identifier Number), and last_modified. Raises a not-found error for an
+    ID that does not exist; get IDs from search_dockets rather than
+    guessing them.
+
+    Args:
+        docket_id: Exact docket ID, e.g. "BIS-2024-0047".
+    """
+    result = await _get_client().get_docket(docket_id)
+    return result.model_dump()
+
+
+@mcp.tool()
+async def list_documents(docket_id: str, page: int = 1, page_size: int = 20) -> dict:
+    """List the documents filed in one Regulations.gov docket.
+
+    Returns document summaries: id, title, document_type (Proposed Rule,
+    Rule, Notice, Supporting & Related Material, ...), posted_date,
+    fr_doc_num (Federal Register document number), open_for_comment,
+    comment_end_date, and withdrawn. A docket ID that matches nothing
+    yields an empty list, not an error.
+
+    Args:
+        docket_id: Exact docket ID, e.g. "BIS-2024-0047".
+        page: Result page, 1 to 20 (API limit).
+        page_size: Results per page, 5 to 250.
+    """
+    result = await _get_client().list_documents(
+        docket_id, page=page, page_size=page_size
+    )
+    return result.model_dump()
+
+
 def main() -> None:
     mcp.run()
 

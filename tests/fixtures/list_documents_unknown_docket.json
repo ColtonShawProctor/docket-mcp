@@ -1,0 +1,29 @@
+{
+  "data" : [ ],
+  "meta" : {
+    "aggregations" : {
+      "documentType" : [ ],
+      "subtype" : [ ],
+      "withinCommentPeriod" : [ {
+        "docCount" : 0,
+        "label" : "true"
+      }, {
+        "docCount" : 0,
+        "label" : "false"
+      } ],
+      "agencyId" : [ ],
+      "commentEndDate" : [ ],
+      "postedDate" : [ ]
+    },
+    "filters" : { },
+    "hasNextPage" : false,
+    "hasPreviousPage" : false,
+    "numberOfElements" : 0,
+    "pageNumber" : 1,
+    "pageSize" : 5,
+    "totalElements" : 0,
+    "totalPages" : 0,
+    "firstPage" : true,
+    "lastPage" : true
+  }
+}

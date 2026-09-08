@@ -6,6 +6,14 @@ class ApiKeyMissingError(DocketMcpError):
     """Raised when no Regulations.gov API key is configured."""
 
 
+class MalformedIdError(DocketMcpError):
+    """Raised for IDs that cannot possibly be valid, before any request is sent."""
+
+
+class NotFoundError(DocketMcpError):
+    """Raised when the API reports that the requested resource does not exist."""
+
+
 class UpstreamError(DocketMcpError):
     """Raised when the API answers with a status this client cannot handle."""
 

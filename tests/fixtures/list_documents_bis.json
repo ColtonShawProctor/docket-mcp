@@ -1,0 +1,56 @@
+{
+  "data" : [ {
+    "type" : "documents",
+    "id" : "BIS-2024-0047-0001",
+    "attributes" : {
+      "agencyId" : "BIS",
+      "objectId" : "09000064866e9476",
+      "frDocNum" : "2024-20529",
+      "documentType" : "Proposed Rule",
+      "withdrawn" : false,
+      "highlightedContent" : "",
+      "commentEndDate" : "2024-10-12T03:59:59Z",
+      "commentStartDate" : "2024-09-11T04:00:00Z",
+      "lastModifiedDate" : "2024-10-14T01:00:58Z",
+      "openForComment" : false,
+      "withinCommentPeriod" : false,
+      "postedDate" : "2024-09-11T04:00:00Z",
+      "title" : "Reporting Requirements for the Development of Advanced Artificial Intelligence Models and Computing Clusters",
+      "docketId" : "BIS-2024-0047",
+      "subtype" : null,
+      "allowLateComments" : false
+    }
+  } ],
+  "meta" : {
+    "aggregations" : {
+      "documentType" : [ {
+        "docCount" : 1,
+        "label" : "Proposed Rule"
+      } ],
+      "subtype" : [ ],
+      "withinCommentPeriod" : [ {
+        "docCount" : 0,
+        "label" : "true"
+      }, {
+        "docCount" : 1,
+        "label" : "false"
+      } ],
+      "agencyId" : [ {
+        "docCount" : 1,
+        "value" : "BIS"
+      } ],
+      "commentEndDate" : [ ],
+      "postedDate" : [ ]
+    },
+    "filters" : { },
+    "hasNextPage" : false,
+    "hasPreviousPage" : false,
+    "numberOfElements" : 1,
+    "pageNumber" : 1,
+    "pageSize" : 5,
+    "totalElements" : 1,
+    "totalPages" : 1,
+    "firstPage" : true,
+    "lastPage" : true
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "data" : {
+    "id" : "BIS-2024-0047",
+    "type" : "dockets",
+    "attributes" : {
+      "displayProperties" : [ ],
+      "keywords" : [ "AI", "Computer Clusters", "Defense Production Act", "Reporting" ],
+      "modifyDate" : "2024-10-22T15:46:37Z",
+      "dkAbstract" : "This proposed rule would amend the Bureau of Industry and Security’s (BIS) Industrial Base Surveys – Data Collections regulations by establishing reporting requirements for the development of advanced artificial intelligence (AI) models and computing clusters under the Executive order of October 30, 2023, “Safe, Secure, and Trustworthy Development and Use of Artificial Intelligence.”",
+      "agencyId" : "BIS",
+      "program" : null,
+      "shortTitle" : null,
+      "subType2" : null,
+      "title" : "Establishment of Reporting Requirements for the Development of Advanced Artificial Intelligence Models and Computing Clusters",
+      "generic" : null,
+      "field1" : null,
+      "docketType" : "Rulemaking",
+      "petitionNbr" : null,
+      "rin" : "0694-AJ55",
+      "organization" : null,
+      "legacyId" : null,
+      "subType" : "EAR",
+      "category" : null,
+      "field2" : null,
+      "effectiveDate" : null,
+      "objectId" : "0b000064866cbbb4"
+    },
+    "links" : {
+      "self" : "https://api.regulations.gov/v4/dockets/BIS-2024-0047"
+    }
+  }
+}

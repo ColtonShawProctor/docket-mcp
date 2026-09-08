@@ -4,8 +4,14 @@ import re
 import httpx
 
 from docket_mcp.config import API_BASE_URL
-from docket_mcp.errors import UpstreamError
-from docket_mcp.schemas import DocketSummary, SearchDocketsResult
+from docket_mcp.errors import MalformedIdError, NotFoundError, UpstreamError
+from docket_mcp.schemas import (
+    DocketDetail,
+    DocketSummary,
+    DocumentSummary,
+    ListDocumentsResult,
+    SearchDocketsResult,
+)
 
 # Constraints documented by the Regulations.gov v4 API: page[size] must be
 # 5..250 and page[number] at most 20 (deeper results need a narrower filter).
@@ -14,6 +20,21 @@ MAX_PAGE_SIZE = 250
 MAX_PAGE = 20
 
 _TAG_RE = re.compile(r"<[^>]+>")
+
+# Docket and document IDs are ASCII segments joined by "-" or "_", e.g.
+# EPA-HQ-OAR-2021-0317 or OCC_FRDOC_0001. Anything else is rejected before a
+# request is built: the ID lands in a URL path, so this is also what keeps
+# separators and lookalike unicode out of the request line.
+_ID_RE = re.compile(r"[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)+")
+MAX_ID_LENGTH = 128
+
+
+def _validate_id(value: str, kind: str) -> None:
+    if len(value) > MAX_ID_LENGTH or not _ID_RE.fullmatch(value):
+        raise MalformedIdError(
+            f"{value!r} is not a plausible {kind} ID. Expected ASCII segments "
+            "joined by hyphens or underscores, like EPA-HQ-OAR-2021-0317."
+        )
 
 
 def _strip_highlight(text: str | None) -> str | None:
@@ -61,6 +82,21 @@ def _docket_summary(item: dict) -> DocketSummary:
     )
 
 
+def _document_summary(item: dict) -> DocumentSummary:
+    attrs = item["attributes"]
+    return DocumentSummary(
+        id=item["id"],
+        title=attrs.get("title"),
+        document_type=attrs.get("documentType"),
+        docket_id=attrs.get("docketId"),
+        posted_date=attrs.get("postedDate"),
+        fr_doc_num=attrs.get("frDocNum"),
+        open_for_comment=attrs.get("openForComment"),
+        comment_end_date=attrs.get("commentEndDate"),
+        withdrawn=attrs.get("withdrawn"),
+    )
+
+
 class RegulationsGovClient:
     def __init__(
         self,
@@ -84,6 +120,8 @@ class RegulationsGovClient:
         resp = await self._http.get(path, params=params)
         if resp.status_code == 200:
             return resp.json()
+        if resp.status_code == 404:
+            raise NotFoundError(_error_detail(resp) or "Resource not found.")
         raise UpstreamError(resp.status_code, _error_detail(resp))
 
     async def search_dockets(
@@ -111,4 +149,45 @@ class RegulationsGovClient:
             page_size=meta["pageSize"],
             has_next_page=meta["hasNextPage"],
             dockets=[_docket_summary(item) for item in body["data"]],
+        )
+
+    async def get_docket(self, docket_id: str) -> DocketDetail:
+        _validate_id(docket_id, "docket")
+        body = await self._get(f"/dockets/{docket_id}")
+        data = body["data"]
+        attrs = data["attributes"]
+        return DocketDetail(
+            id=data["id"],
+            title=attrs.get("title"),
+            agency_id=attrs.get("agencyId"),
+            docket_type=attrs.get("docketType"),
+            abstract=attrs.get("dkAbstract"),
+            keywords=attrs.get("keywords"),
+            rin=attrs.get("rin"),
+            last_modified=attrs.get("modifyDate"),
+        )
+
+    async def list_documents(
+        self,
+        docket_id: str,
+        *,
+        page: int = 1,
+        page_size: int = 20,
+    ) -> ListDocumentsResult:
+        _validate_id(docket_id, "docket")
+        _validate_paging(page, page_size)
+        params = {
+            "filter[docketId]": docket_id,
+            "page[number]": page,
+            "page[size]": page_size,
+        }
+        body = await self._get("/documents", params)
+        meta = body["meta"]
+        return ListDocumentsResult(
+            docket_id=docket_id,
+            total=meta["totalElements"],
+            page=meta["pageNumber"],
+            page_size=meta["pageSize"],
+            has_next_page=meta["hasNextPage"],
+            documents=[_document_summary(item) for item in body["data"]],
         )

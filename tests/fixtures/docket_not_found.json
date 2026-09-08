@@ -1,0 +1,6 @@
+{
+  "errors" : [ {
+    "status" : "404",
+    "title" : "The docket with the specified ID could not be found."
+  } ]
+}
