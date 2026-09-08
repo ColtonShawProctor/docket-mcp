@@ -1,10 +1,17 @@
+import asyncio
 import html
 import re
+from collections.abc import Awaitable, Callable
 
 import httpx
 
 from docket_mcp.config import API_BASE_URL
-from docket_mcp.errors import MalformedIdError, NotFoundError, UpstreamError
+from docket_mcp.errors import (
+    MalformedIdError,
+    NotFoundError,
+    RateLimitedError,
+    UpstreamError,
+)
 from docket_mcp.schemas import (
     DocketDetail,
     DocketSummary,
@@ -18,6 +25,22 @@ from docket_mcp.schemas import (
 MIN_PAGE_SIZE = 5
 MAX_PAGE_SIZE = 250
 MAX_PAGE = 20
+
+# 429 is the API's hourly rate limit; the 5xx statuses are transient at a
+# gateway that fronts a slow upstream. Everything else fails immediately.
+RETRYABLE_STATUSES = {429, 500, 502, 503, 504}
+MAX_BACKOFF_SECONDS = 30.0
+
+
+def _retry_delay(resp: httpx.Response, attempt: int) -> float:
+    """Prefer the server's Retry-After; fall back to capped exponential backoff."""
+    retry_after = resp.headers.get("Retry-After")
+    if retry_after is not None:
+        try:
+            return max(0.0, float(retry_after))
+        except ValueError:
+            pass  # HTTP-date form or garbage; use backoff
+    return min(MAX_BACKOFF_SECONDS, float(2**attempt))
 
 _TAG_RE = re.compile(r"<[^>]+>")
 
@@ -105,6 +128,8 @@ class RegulationsGovClient:
         base_url: str = API_BASE_URL,
         timeout: float = 30.0,
         transport: httpx.AsyncBaseTransport | None = None,
+        max_retries: int = 3,
+        sleep: Callable[[float], Awaitable[None]] | None = None,
     ):
         self._http = httpx.AsyncClient(
             base_url=base_url,
@@ -112,17 +137,31 @@ class RegulationsGovClient:
             transport=transport,
             headers={"X-Api-Key": api_key},
         )
+        self._max_retries = max_retries
+        self._sleep = asyncio.sleep if sleep is None else sleep
 
     async def aclose(self) -> None:
         await self._http.aclose()
 
     async def _get(self, path: str, params: dict | None = None) -> dict:
-        resp = await self._http.get(path, params=params)
-        if resp.status_code == 200:
-            return resp.json()
-        if resp.status_code == 404:
-            raise NotFoundError(_error_detail(resp) or "Resource not found.")
-        raise UpstreamError(resp.status_code, _error_detail(resp))
+        attempt = 0
+        while True:
+            resp = await self._http.get(path, params=params)
+            if resp.status_code == 200:
+                return resp.json()
+            if resp.status_code == 404:
+                raise NotFoundError(_error_detail(resp) or "Resource not found.")
+            if resp.status_code in RETRYABLE_STATUSES and attempt < self._max_retries:
+                await self._sleep(_retry_delay(resp, attempt))
+                attempt += 1
+                continue
+            if resp.status_code == 429:
+                raise RateLimitedError(
+                    "Regulations.gov rate limit still exceeded after "
+                    f"{self._max_retries} retries. The limit is hourly; wait "
+                    "before retrying, or switch DEMO_KEY for a real key."
+                )
+            raise UpstreamError(resp.status_code, _error_detail(resp))
 
     async def search_dockets(
         self,

@@ -14,6 +14,10 @@ class NotFoundError(DocketMcpError):
     """Raised when the API reports that the requested resource does not exist."""
 
 
+class RateLimitedError(DocketMcpError):
+    """Raised when the API keeps answering 429 after every allowed retry."""
+
+
 class UpstreamError(DocketMcpError):
     """Raised when the API answers with a status this client cannot handle."""
 
