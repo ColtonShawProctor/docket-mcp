@@ -31,6 +31,12 @@ Claude Desktop or Cursor (`mcpServers` in the client config):
 }
 ```
 
+## Getting an API key
+
+Request a free key at [api.data.gov](https://open.gsa.gov/api/regulationsgov/) (the signup takes about a minute) and set it as `REGULATIONS_GOV_API_KEY` in your environment or in the MCP client config shown above.
+
+If you skip this, `DEMO_KEY` works for a quick try, but it shares a low hourly limit with everyone else using it, so real use rate-limits fast. The server retries with backoff when that happens, but the honest fix is a personal key: same API, same data, a far higher limit. The fixtures in `tests/` were recorded with `DEMO_KEY`, which is also why the tests never call the API at all.
+
 ## Tools
 
 This section is written for both humans and the models that call the tools. The short version a model needs: start with `search_dockets`, take an `id` from the results, and hand it to `get_docket` or `list_documents`. Never guess docket IDs. If every call fails, call `ping` and check `api_key_configured`.
