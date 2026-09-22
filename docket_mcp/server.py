@@ -1,4 +1,5 @@
 from mcp.server.mcpserver import MCPServer
+from mcp.types import ToolAnnotations
 
 from docket_mcp import __version__
 from docket_mcp.client import RegulationsGovClient
@@ -9,6 +10,16 @@ mcp = MCPServer("docket-mcp", version=__version__)
 
 _client: RegulationsGovClient | None = None
 
+# Every tool is read-only and idempotent: nothing here writes to
+# Regulations.gov. Tools that reach the API are marked open-world; ping never
+# leaves the process.
+_READ_ONLY_LOCAL = ToolAnnotations(
+    read_only_hint=True, destructive_hint=False, idempotent_hint=True, open_world_hint=False
+)
+_READ_ONLY_API = ToolAnnotations(
+    read_only_hint=True, destructive_hint=False, idempotent_hint=True, open_world_hint=True
+)
+
 
 def _get_client() -> RegulationsGovClient:
     global _client
@@ -17,7 +28,7 @@ def _get_client() -> RegulationsGovClient:
     return _client
 
 
-@mcp.tool()
+@mcp.tool(annotations=_READ_ONLY_LOCAL)
 def ping() -> dict:
     """Report server health and configuration status without calling the API.
 
@@ -38,7 +49,7 @@ def ping() -> dict:
     }
 
 
-@mcp.tool()
+@mcp.tool(annotations=_READ_ONLY_API)
 async def search_dockets(
     query: str,
     page: int = 1,
@@ -65,7 +76,7 @@ async def search_dockets(
     return result.model_dump()
 
 
-@mcp.tool()
+@mcp.tool(annotations=_READ_ONLY_API)
 async def get_docket(docket_id: str) -> dict:
     """Fetch one docket's full detail from Regulations.gov by its exact ID.
 
@@ -82,7 +93,7 @@ async def get_docket(docket_id: str) -> dict:
     return result.model_dump()
 
 
-@mcp.tool()
+@mcp.tool(annotations=_READ_ONLY_API)
 async def list_documents(docket_id: str, page: int = 1, page_size: int = 20) -> dict:
     """List the documents filed in one Regulations.gov docket.
 
