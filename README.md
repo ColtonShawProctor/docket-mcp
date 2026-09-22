@@ -1,6 +1,6 @@
 # docket-mcp
 
-[![M8ven Score](https://m8ven.ai/badge/mcp/coltonshawproctor/docket-mcp)](https://m8ven.ai/mcp/coltonshawproctor/docket-mcp)
+[![M8ven Score](https://m8ven.ai/badge/mcp/coltonshawproctor-docket-mcp-tfo9oo?v=a0a8e66f75e2fde076bf151665f14d27)](https://m8ven.ai/mcp/coltonshawproctor-docket-mcp-tfo9oo)
 
 An MCP server for [Regulations.gov](https://www.regulations.gov). It gives an LLM agent read access to federal rulemaking: search dockets, fetch a docket's abstract and metadata, and list the documents filed in it. Built for agents that answer questions like "what is in the BIS docket on AI reporting requirements and is it still open for comment?"
 
